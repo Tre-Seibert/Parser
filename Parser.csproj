@@ -19,4 +19,20 @@
     </COMReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="OldParser\TICKET Help Rules VBA\.vs\ProjectSettings.json" />
+    <Content Include="OldParser\TICKET Help Rules VBA\.vs\VSWorkspaceState.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="OldParser\TICKET Help Rules VBA\.vs\slnx.sqlite" />
+    <None Include="OldParser\TICKET Help Rules VBA\.vs\TICKET Help Rules VBA\FileContentIndex\942eda8b-044e-41cf-94f1-a4fb66812e3a.vsidx" />
+    <None Include="OldParser\TICKET Help Rules VBA\.vs\TICKET Help Rules VBA\FileContentIndex\read.lock" />
+    <None Include="OldParser\TICKET Help Rules VBA\.vs\TICKET Help Rules VBA\v17\.wsuo" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="OldParser\TICKET Help Rules VBA\.vs\TICKET Help Rules VBA\FileContentIndex\merges\" />
+  </ItemGroup>
+
 </Project>

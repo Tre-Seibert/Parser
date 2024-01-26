@@ -2,7 +2,7 @@
 
 namespace Parser
 {
-    class Program
+    class Parser
     {
         static void Main(string[] args) {
             // Run the monitoring loop on a separate thread
@@ -31,7 +31,7 @@ namespace Parser
                         // Add your email processing logic here
 
                         // For demonstration purposes, just print the subject
-                        Console.WriteLine($"New Email: {email.Subject}");
+                        Console.WriteLine($"New Emails: {email.Subject}");
                     }
                 }
                 // Sleep for a while before checking for new emails again
