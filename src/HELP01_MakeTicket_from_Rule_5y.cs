@@ -6,6 +6,7 @@ using Outlook = Microsoft.Office.Interop.Outlook;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Interop.Outlook;
 using Microsoft.VisualBasic;
+
 // '## TICKET_00_COMMON - Common Public Constants, Variables & Routines for the Ticket System
 
 
@@ -163,8 +164,9 @@ namespace Parser.src
             }
             catch (System.Exception ex)
             {
-                CmHandleError("HELP01_MakeTicket_from_Rule:HELP_MakeTicket", $"{ex.Message} >{(oMail != null ? oMail.Subject : oMtgReq != null ? oMtgReq.Subject : string.Empty)}");
-                if (ERR_RESUME)
+                TICKET_00_COMMON TICKET_00_COMMON = new TICKET_00_COMMON();
+                TICKET_00_COMMON.CmHandleError("HELP01_MakeTicket_from_Rule:HELP_MakeTicket", $"{ex.Message} >{(oMail != null ? oMail.Subject : oMtgReq != null ? oMtgReq.Subject : string.Empty)}");
+                if (TICKET_00_COMMON.ERR_RESUME)
                 {
                     // Resume Next
                 }
