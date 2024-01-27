@@ -61,21 +61,21 @@ int m_iRowsAlertRules;
 string[,] m_asSpamRules;
 int m_iRowsSpamRules;
 
-namespace Parser
+namespace Parser.src
 {
     class Parser
     {
 
         // Make these members static
         static bool m_blnMakeTicket_Init = false;
-        static Outlook.Folder m_fldrTickets;
-        static Outlook.Folder m_fldrLocks;
+        static Folder m_fldrTickets;
+        static Folder m_fldrLocks;
 
 
         static void Main(string[] args)
         {
             // Run the monitoring loop on a separate thread
-            System.Threading.Thread monitoringThread = new System.Threading.Thread(MonitorOutlook);
+            Thread monitoringThread = new Thread(MonitorOutlook);
             monitoringThread.Start();
 
             // Keep the application running
@@ -86,20 +86,20 @@ namespace Parser
         static void MonitorOutlook()
         {
             // Initialize Outlook Application
-            Outlook.Application outlookApp = new Outlook.Application();
+            Application outlookApp = new Application();
 
             // Get Inbox folder
-            Outlook.MAPIFolder inbox = outlookApp.GetNamespace("MAPI").GetDefaultFolder(Outlook.OlDefaultFolders.olFolderInbox);
+            MAPIFolder inbox = outlookApp.GetNamespace("MAPI").GetDefaultFolder(OlDefaultFolders.olFolderInbox);
 
             // Infinite loop to continuously monitor emails
             while (true)
             {
                 foreach (object item in inbox.Items)
                 {
-                    if (item is Outlook.MailItem)
+                    if (item is MailItem)
                     {
                         // Process each email using your logic
-                        Outlook.MailItem email = (Outlook.MailItem)item;
+                        MailItem email = (MailItem)item;
 
                         // Add your email processing logic here
                         HELP_MakeTicket(email);
@@ -109,7 +109,7 @@ namespace Parser
                     }
                 }
                 // Sleep for a while before checking for new emails again
-                System.Threading.Thread.Sleep(TimeSpan.FromMinutes(1));
+                Thread.Sleep(TimeSpan.FromMinutes(1));
             }
         }
 
@@ -129,11 +129,11 @@ namespace Parser
                 }
 
                 // Email entries - Make sure the email is a type we can process
-                if ((oItem is MailItem) && (string.Equals(((MailItem)oItem).MessageClass, MSGCLS_Note, StringComparison.OrdinalIgnoreCase) ||
-                                            string.Equals(((MailItem)oItem).MessageClass, MSGCLS_Mail, StringComparison.OrdinalIgnoreCase) ||
-                                            string.Equals(((MailItem)oItem).MessageClass, MSGCLS_Reply, StringComparison.OrdinalIgnoreCase)))
+                if (oItem is MailItem && (string.Equals(oItem.MessageClass, MSGCLS_Note, StringComparison.OrdinalIgnoreCase) ||
+                                            string.Equals(oItem.MessageClass, MSGCLS_Mail, StringComparison.OrdinalIgnoreCase) ||
+                                            string.Equals(oItem.MessageClass, MSGCLS_Reply, StringComparison.OrdinalIgnoreCase)))
                 {
-                    oMail = (MailItem)oItem;
+                    oMail = oItem;
 
                     // If the trigger email starts with a ?, return the list of tickets
                     blnRtnList = false;
@@ -163,7 +163,7 @@ namespace Parser
             }
             catch (System.Exception ex)
             {
-                CmHandleError("HELP01_MakeTicket_from_Rule:HELP_MakeTicket", $"{ex.Message} >{(oMail != null ? oMail.Subject : (oMtgReq != null ? oMtgReq.Subject : string.Empty))}");
+                CmHandleError("HELP01_MakeTicket_from_Rule:HELP_MakeTicket", $"{ex.Message} >{(oMail != null ? oMail.Subject : oMtgReq != null ? oMtgReq.Subject : string.Empty)}");
                 if (ERR_RESUME)
                 {
                     // Resume Next
